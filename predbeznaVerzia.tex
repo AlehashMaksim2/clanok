@@ -1,21 +1,36 @@
 % Metódy inžinierskej práce
 
-\documentclass[10pt,twoside,English,a4paper]{article}
+\documentclass[11pt,oneside,english,a4paper]{article}
 
 \usepackage[english]{babel}
 %\usepackage[T1]{fontenc}
 \usepackage[IL2]{fontenc} % lepšia sadzba písmena Ľ než v T1
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{background}
 \usepackage{booktabs} 
 \usepackage{caption} 
 \usepackage{subcaption} 
-\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{amsmath, amssymb}
 \usepackage{array, hhline}
-\usepackage{graphicx}
+\usepackage{cite}
+\usepackage[normalem]{ulem}
 \usepackage{url} % príkaz \url na formátovanie URL
 \usepackage{hyperref} % odkazy v texte budú aktívne (pri niektorých triedach dokumentov spôsobuje posun textu)
-\usepackage{cite}
+\usepackage{everypage}
+
 %\usepackage{times}
+
+%logo
+\backgroundsetup{
+    contents=\includegraphics{STU-FIIT.png},
+    scale=0.3,
+    opacity=1,
+    angle=0,
+    position=current page.north,
+    vshift=-4cm
+}
 
 \pagestyle{headings}
 
@@ -27,56 +42,86 @@
 	{\small \texttt{xalehash@stuba.sk}}
 	}
 
-\date{\small \today} % upravte
+\date{\small\today} % upravte
+
+
 
 \begin{document}
 
 \maketitle
 
-\tableofcontents
-
-
 \begin{abstract}
-
+The astounding leaps in AI technology have made autonomous vehicles the sole means of modern transportation, placing an emphasis on enhancing a person's safety, adapting to the comfort of the passengers, and making the ride as efficient as possible. In order to get the best results in the shortest amount of time possible, the machines need to make split-second decisions in order to achieve them. 
+\par The article presents a comprehensive exploration of the critical role of real-time data processing, which is one of the most crucial parts of autonomous vehicles. It covers the essence and the functioning of many cutting-edge technologies and methods that are being used, how the data is being processed in general and touches on the safety and unparalleled comforts whilst driving, but also the risks and challenges it can pose. In the end, the article illustrates to readers the intricacies and implications of real-time data processing that play a crucial role in autonomous vehicles.
 \end{abstract}
 
 
-\section{Introduction}
+\tableofcontents\pagebreak 
+
+
+\section{Introduction} \label{introduction}
 
 Motivujte čitateľa a vysvetlite, o čom píšete. Úvod sa väčšinou nedelí na časti.
 
 Uveďte explicitne štruktúru článku. Tu je nejaký príklad.
-Základný problém, ktorý bol naznačený v úvode, je podrobnejšie vysvetlený v časti~\ref{nejaka}.
+Základný problém, ktorý bol naznačený v úvode, je podrobnejšie vysvetlený v časti~\ref{}.
 Dôležité súvislosti sú uvedené v častiach~\ref{dolezita} a~\ref{dolezitejsia}.
 Záverečné poznámky prináša časť~\ref{zaver}.
 
 
 
-\section{Sensors and data sources} \label{nejaka}
+\section{Sensors and data sources} \label{sensors and data sources}
 
 Z obr.~\ref{f:rozhod} je všetko jasné. 
 
-\begin{figure*}[tbh]
+\begin{figure*}
 %\includegraphics[scale=1.0]{diagram.pdf}
-Aj text môže byť prezentovaný ako obrázok. Stane sa z neho označný plávajúci objekt. Po vytvorení diagramu zrušte znak \texttt{\%} pred príkazom \verb|\includegraphics| označte tento riadok ako komentár (tiež pomocou znaku \texttt{\%}).
-\caption{Rozhodujúci argument.}
-\label{f:rozhod}
+Aj text môže byť prezentovaný ako obrázok. Stane sa z neho označný plávajúci objekt. Po vytvorení diagramu zrušte znak. pred príkazom \verb|\includegraphics| označte tento riadok ako komentár (tiež pomocou znaku ).
+
+
+\centering
+    \includegraphics[width=10cm]{sensors.png}
+    \caption\centering{The complexity situation awareness of autonomous vehicle caused by using multi-sensors}
+    \label{fig:sensors}
+    
 \end{figure*}
 
-
-
-\section{Data processing architecture} \label{ina}
+\section{Data processing architecture} \label{architecture}
 
 Základným problémom je teda\ldots{} Najprv sa pozrieme na nejaké vysvetlenie (časť~\ref{ina:nejake}), a potom na ešte nejaké (časť~\ref{ina:nejake}).\footnote{Niekedy môžete potrebovať aj poznámku pod čiarou.}
 
 Môže sa zdať, že problém vlastne nejestvuje\cite{Coplien:MPD}, ale bolo dokázané, že to tak nie je~\cite{Czarnecki:Staged, Czarnecki:Progress}. Napriek tomu, aj dnes na webe narazíme na všelijaké pochybné názory\cite{PLP-Framework}. Dôležité veci možno \emph{zdôrazniť kurzívou}.
 
+\begin{figure*}
 
+
+\centering
+    \includegraphics[width=10cm]{architecture.png}
+    \caption{Architecture}
+    \label{fig:architecture}
+
+\end{figure*}
 
 \section{Algorithms and methods} \label{dolezita}
 
 
 
+\[Matica
+\begin{bmatrix}
+1 & 2 & 3 & 4 & 5\\
+1 & 2 & 3 & 4 & 5\\
+1 & 2 & 3 & 4 & 5\\
+1 & 2 & 3 & 4 & 5\\
+1 & 2 & 3 & 4 & 5\\
+\end{bmatrix}
+\]
+
+Postupnost
+\begin{align}
+    F(x) &= a_0 + a_1 x + a_2 x^2 + a_3 x^3 + a_4 x^4 \nonumber \\
+         &\quad + a_5 x^5 + a_6 x^6 + a_7 x^7 + a_8 x^8 \nonumber \\
+         &\quad + a_9 x^9 + a_{10} x^{10} + a_{11} x^{11} \nonumber
+\end{align}
 
 \section{Safety and performance} \label{dolezitejsia}
 
@@ -99,5 +144,7 @@ Môže sa zdať, že problém vlastne nejestvuje\cite{Coplien:MPD}, ale bolo dok
 \bibliography{literatura}
 \bibliographystyle{abbrv} % prípadne alpha, abbrv alebo hociktorý iný
 \end{document}
+
+
 
 

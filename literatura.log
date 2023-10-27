@@ -7,8 +7,7 @@
   volume={15},
   number={2},
   pages={1131-1140},
-  doi={10.1109/TII.2018.2877217}
-}
+  doi={10.1109/TII.2018.2877217}}
 
 @article{8457076,
   author={Hussain, Rasheed and Zeadally, Sherali},
@@ -18,8 +17,7 @@
   volume={21},
   number={2},
   pages={1275-1313},
-  doi={10.1109/COMST.2018.2869360}
-}
+  doi={10.1109/COMST.2018.2869360}}
 
 @inproceedings{9214125,
   author={Ahmad, Irfan and Pothuganti, Karunakar},
@@ -29,8 +27,7 @@
   volume={},
   number={},
   pages={107-113},
-  doi={10.1109/ICSSIT48917.2020.9214125}
-}
+  doi={10.1109/ICSSIT48917.2020.9214125}}
 
 @misc{Khayyam2020,
   author={Khayyam, Hamid and Javadi, Bahman and Jalili, Mahdi and Jazar, Reza N.},
@@ -75,40 +72,8 @@ volume = {33},
 pages = {3303-3310},
 year = {2020},
 note = {International Conference on Nanotechnology: Ideas, Innovation and Industries},
-issn = {2214-7853},
+isbn = {2214-7853},
 doi = {https://doi.org/10.1016/j.matpr.2020.04.736},
 url = {https://www.sciencedirect.com/science/article/pii/S2214785320333848},
 }
-
-@article{electronics12153223,
-author = {Jang, Jihye and Tulkinbekov, Khikmatullo and Kim, Deok-Hwan},
-title = {Task Offloading of Deep Learning Services for Autonomous Driving in Mobile Edge Computing},
-journal = {Electronics},
-volume = {12},
-yaer = {2023},
-number = {15},
-article-number = {3223},
-url = {https://www.mdpi.com/2079-9292/12/15/3223},
-issn = {2079-9292},
-doi = {10.3390/electronics12153223}
-}
-
-
-@article{s23063335,
-author = {Hasanujjaman, Muhammad and Chowdhury, Mostafa Zaman and Jang, Yeong Min},
-title = {Sensor Fusion in Autonomous Vehicle with Traffic Surveillance Camera System: Detection, Localization, and AI Networking},
-journal = {Sensors},
-volume = {23},
-year = {2023},
-number = {6},
-article-number = {3335},
-url = {https://www.mdpi.com/1424-8220/23/6/3335},
-PubMedID = {36992043},
-issn = {1424-8220},
-doi = {10.3390/s23063335}
-}
-
-
-
-
 

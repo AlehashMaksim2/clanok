@@ -1,0 +1,8 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {section}{\numberline {2}Sensors and data sources}{2}{section.2}%
+\contentsline {section}{\numberline {3}Data processing architecture}{2}{section.3}%
+\contentsline {section}{\numberline {4}Algorithms and methods}{3}{section.4}%
+\contentsline {section}{\numberline {5}Safety and performance}{3}{section.5}%
+\contentsline {section}{\numberline {6}Future directions and challenges}{3}{section.6}%
+\contentsline {section}{\numberline {7}Conclusion}{3}{section.7}%
