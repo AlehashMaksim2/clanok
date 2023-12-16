@@ -12,9 +12,11 @@
 \usepackage{subcaption} 
 \usepackage{multicol}
 \usepackage{amsmath, amssymb}
+\usepackage{geometry}
 \usepackage{array, hhline}
 \usepackage{cite}
 \usepackage[normalem]{ulem}
+\usepackage[shortlabels]{enumitem}
 \usepackage{comment}
 \usepackage{indentfirst}
 \usepackage{titlesec}
@@ -28,7 +30,7 @@
 
 \pagestyle{headings}
 
-\title{Real-time data processing in AV\thanks{Semestrálny projekt v predmete Metódy inžinierskej práce, ak. rok 2023/24, vedenie: Pavol Baťalík}} % meno a priezvisko vyučujúceho na cvičeniach
+\title{Real-time data processing in autnomous vehicles\thanks{Semestrálny projekt v predmete Metódy inžinierskej práce, ak. rok 2023/24, vedenie: Pavol Baťalík}} % meno a priezvisko vyučujúceho na cvičeniach
 
 \author{Maksim Alehash\\[2pt]
 	{\small Slovenská technická univerzita v Bratislave}\\
@@ -54,16 +56,15 @@ The astounding leaps in AI technology have made AVs a great variant for modern t
 
 \newpage\section{Introduction}
 
-\indent Although AV are quite a recent technological invention, in today's rapidly evolving world of transportation they have certainly reshaped the way we see the future of mobility and innovation. At the core of this revolutionary technology lies the capability to instantaneously perceive, analyze and respond to a dynamic and complex environment in real-time, all without the need for human intervention. 
-\par They offer the potential to enhance transportation safety, improve traffic efficiency, and enhance the reliability of our travels. Therefore, the ever-increasing integration of AVs into our daily lives makes it more apparent that their growing importance has the potential to reshape not just the automotive industry, but all industries in the economy. 
-\par This article provides a comprehensive overview of the critical importance of real-time data processing in AVs. We begin with the role and significance of sensors~\eqref{sensors}. 
-Then we head to various algorithms that are used within AVs~\eqref{algorithms}. Then we discuss the architecture of data processing used in AVs~\eqref{architecture}. Then we discuss how data processing contributes to the safety of AVs and the prevention of accidents and threats~\eqref{safety}. Finally, we emphasize on the future of AVs and analyze upcoming trends and research direction~\eqref{future}.
+\indent Although AV are quite a recent technological invention in today's rapidly evolving world of transportation, they have certainly reshaped the way we see the future of mobility and innovation. At the core of this revolutionary technology lies the capability to instantaneously perceive, analyze and respond to a dynamic and complex environment in real-time, all without the need for human intervention. 
+\par This article provides a comprehensive overview of the critical importance of real-time data processing in AVs. We begin with the role and significance of sensors. 
+Then we head to various algorithms that are used within AVs. Then we discuss the architecture of data processing used in AVs. Then we discuss how data processing contributes to the safety of AVs and the prevention of accidents and threats. Finally, we emphasize on the future of AVs and analyze upcoming trends and research direction.
 
 %nova sekcia
 
 \section{Sensors} \label{sensors}
 
-\indent The central part to the success of AV is their ability to understand and interpret their surroundings without any mistakes. They are equipped with an array of internal and external sensors which help the vehicle function autonomously. Each of these sensors stores a tremendous volume of data that is given at different speeds, of any quality and of any type, and they must be enabled during the entire period of the vehicle's use. Here we list the most important sensors:
+\indent The central part to the success of AV is their ability to understand and interpret their surroundings without any mistakes. They are equipped with an array of internal and external sensors which help the vehicle function autonomously while storing a tremendous volume of data. Here we list the most important sensors:
 
 \begin{figure*}[!h]
 \centering
@@ -73,72 +74,90 @@ Then we head to various algorithms that are used within AVs~\eqref{algorithms}. 
 \label{fig:p_sensors}
 \end{figure*}
 
+
 \subsection{Cameras}
-\indent Cameras can be perceived as the most basic type of sensors that can be implemented into an AV since they are the most affordable and offer great usability. Their key role is to detect objects such as lanes, traffic signs and lights, and pedestrians to name a few. They provide readily interpretable 2D \textbf{visual} data that can span from a few centimeters to up to 100 meters. Images captured by cameras are composed of tiny elements known as pixels, which represent a specific color. Every pixel in an image collectively carries an array of pixels that form that image. 
-\par The downside of cameras is that their imaging quality can significantly deteriorate in instances of bad weather, such as fog, rain and snow, and low lighting. Moreover, the amount of data output generated by cameras is immense. A single camera can generate between 20-40 MB/s on average. \cite{functionalarch}\cite{computerarch}\cite{stateoftheart}
+\par Cameras can be perceived as the most basic type of sensors. Its role is to detect objects such as lanes, traffic signs and lights, and pedestrians to name a few. They provide readily interpretable 2D visual data that can span from a few centimetres to up to 100 meters. Images captured by cameras consist of pixels. Each pixel in an image collectively contributes to an array of pixels that form the entire image. The amount of data output generated by cameras is about 20-40 MB/s on average.
 
-\subsection{Radar}
-\indent Radio Detection and Ranging, or radar, is a type of sensor that acts as the ultimate barrier for obstacle detection. These sophisticated systems use electromagnetic waves to detect the distance, speed, and angle of objects in the environment. We divide them into short-range, medium-range, and long-range radars, each having different applications and performance. "For 24-GHz radar, the maximum detection range is 70 m, while the maximum range increases to 200 m for 77-GHz radar."\cite{stateoftheart}[p.~6] 
-\par Its primary role is to immediately react to a detected object within a dangerously close range and avoid the impending obstacle or stop the vehicle. In contrast to cameras, radars have very impressive sensing capabilities such as velocity detection, visual obstruction identification and obstacle distance measurements. It's good to mention that their data generation is significantly lower, only producing 10-100 KB/s each. On the other hand, their performance varies with signal interference, they possess low data resolution and poor color detection, and bad object classification. \cite{computerarch}\cite{Sensorfusion}\cite{stateoftheart}
+\subsection{Radio Detection and Ranging}
+\par Radar is the ultimate barrier for obstacle detection. Its primary role is to immediately react to a detected object within a dangerously close range and avoid the impending obstacle or stop the vehicle. They use electromagnetic waves to detect the distance, speed, and angle of objects in the environment. We divide them into short-range, medium-range, and long-range radars, each having different applications and performance. Their range spans from 70m to 200m, depending on the radar itself, and usually produces only 10-100KB of data per second. 
 
-\subsection{LiDAR}
-\indent Light Detection and Ranging, or LiDAR, is a type of sensor that is quite similar to radar, but instead of electromagnetic waves, it uses lasers to precisely measure distance, monitor the environment and is used for mapping. It measures it by assessing the brightness of targets using pulsed laser beams from the laser emitter and analyzes the reflected light pulses with a laser receiver to create a high-definition 360-degree 3D map of the surrounding area while moving, making it a perfect tool for detecting stationary and moving objects. The distance range can vary from several centimeters to up to 200 m, depending on the type of the system. Just like radar, it can be divided into short-range, medium-range and long-range LiDARs. 
-\par Its primary role is to provide precise information for immediate decision-making, allowing the vehicle to navigate and avoid obstacles effectively. In comparison to cameras, LiDAR is somewhat similar to radar. It excels at being less affected by bad weather conditions and low-light environment while staying perfectly accurate in terms of measuring the distance. On the other, compared to both of its counterparts, it's relatively expensive. "According to [\cite{stateoftheart}, p.4, in \cite{lidar}], 16
-lines Velodyne LiDAR costs almost \$8000, while the Velodyne VLS-128E costs over \$100 000." On top of that, the amount of data that, the amount of data that is generated can be around 10-70 MB/s, which places a significant processing load on the computing platform.
-\cite{AIandIoT}\cite{computerarch}\cite{stateoftheart}
-
+\subsection{Light Detection and Ranging}
+\par LiDAR is quite similar to radar, but instead of electromagnetic waves, it uses lasers to precisely measure distance, monitor static and dynamic environments and is used for mapping. Its primary role is to provide precise information for immediate decision-making, allowing the vehicle to navigate and avoid obstacles effectively. By using laser beams, it assesses the brightness of targets and by receiving light pulses back, it creates a high-definition 360-degree 3D map of the surrounding area. The distance range can vary from several centimetres to up to 200 m, depending on the LiDAR itself. Just like radar, it can be divided into short-range, medium-range and long-range LiDARs. It generates around 10-70 MB of data per second, which places a heavy processing load on the system
 
 \subsection{Ultrasonic sensors}
-\indent Ultrasonic sensor is a type of sensor that utilizes high-frequency sound waves that measure the distance to the vehicle or an object. Their role is to provide accurate distance information in short-range applications, particularly for parking assistance and collision avoidance. For this reason, short-range ultrasonic sensors with 20 m detection range are employed. They are usually not used for longer ranges than that. That's where radar and LiDAR are used. 
-\par In the case of data generation, it is comparable to that of radar, at around 10-100 KB/s and is quite robust in the situations of bad weather conditions and low-light environments. Moreover, they're a lot cheaper than their counterparts, given the prices are consistently below \$100. However, it's clear to see why that is since their maximum detection range is limited.
-\cite{stateoftheart}\cite{Sensorfusion}
+\par Ultrasonic sensors utilize high-frequency sound waves that measure the distance to the vehicle or an object. Their role is to provide accurate distance information in short-range scenarios, particularly for parking assistance and collision avoidance. Thus, short-range ultrasonic sensors with 20m detection range are employed for this reason. Data generation is similar to radar, at around 10-100 KB/s.
 
-\subsection{GPS}
-\indent Besides perception, navigation and guidance are essential for an autonomous vehicle. In order for the vehicle to navigate along its intended path, it needs to absorb a lot of road information in great detail, from big things like pedestrian proximity and active traffic to small ones like lane dimensions and curb heights. Based on the travel length, storing this data requires substantial memory and processing power.
-\par Therefore, a Global Positioning System, or GPS, is used. GPS offers comprehensive navigation features that play a crucial role in creating a time-based route from the current position to the destination. The system must adapt to sudden path changes in order to follow the given route. It's praised for its accuracy and adaptability since it continuously redirects its route when unforeseen events, like roadblocks, are present. 
-\par Although GPS's accuracy is perfect, its range is only up to 3 m depending on the circumstances, so its efficiency greatly reduces while being in closed environments, like tunnels, where satellite signals are obstructed. In such scenarios, inertial guidance using gyroscopes and accelerometers (IMU) can be a substitution to GPS.
-\cite{researchresults}\cite{Sensorfusion}\cite{stateoftheart}
+\subsection{Global Positioning System}
+\par Besides perception, navigation and guidance are essential for an autonomous vehicle. GPS offers comprehensive navigation features that play a crucial role in creating a time-based route from the current position to the destination. The system must adapt to sudden path changes in order to follow the given route. It's praised for its accuracy and adaptability since it continuously redirects its route when unforeseen events, like roadblocks, are present. In many cases where GPS is not that effective, like tunnels, In such scenarios, inertial guidance using gyroscopes and accelerometers (IMU) can be a substitution for GPS.
+\cite{functionalarch, computerarch, stateoftheart, Sensorfusion, AIandIoT}
+
+\begin{figure*}[!h]
+\centering
+\includegraphics[scale=0.4]{tabulka.pdf}
+\caption{Advantages and disadvantages of sensors}
+{Source: Microsoft Excel}
+{Autor: Maksim Alehash}
+\label{fig:p_tabulka}
+\end{figure*}
 
 %nova sekcia
 
 \section{Algorithms and techniques of data processing} \label{algorithms}
+In the previous section, we talked about the most important sensors of AVs. The ability to process and interpret data in real-time is crucial for any AV. Hence, the true power behind these sensors comes from the algorithms that are implemented into them and the AVs in general.  
 
-In the previous section~\eqref{sensors}, we have talked about the most important sensors of AV. The ability to process and interpret data in real-time is crucial for any AV. Hence, the true power behind these sensors comes from the algorithms that are implemented into them and the AVs in general.  
+\subsection{Artificial intelligence approaches}
+\begin{enumerate}[A)]
+    \item \textbf{Machine learning}
+    \par Machine learning stands at the forefront of innovation by creating and automating analytical models and algorithms. It enhances the system performance for specific tasks by drawing various methods and approaches to uncover hidden insights within data.
+    \par We divide it into 3 subfields:
+    \begin{itemize}
+        \item \textbf{Unsupervised learning} - involves interpreting data based on input information with no defined labels, also known as clustering
+        \item \textbf{Supervised learning} - involves training on labelled data based on input and output data
+        \item \textbf{Reinforcement learning} - relies on time-delayed and incomplete feedback to shape future decisions
+    \end{itemize}
+    
+    \item \textbf{Deep learning}
+    \par In comparison to machine learning, deep learning stands out by autonomously learning high-level features incrementally, utilizing extensive neural network layers with numerous processing units to handle extensive sensory data and facilitating well-informed decision-making.
+    \par We can divide it into 3 applications:
+    \begin{itemize}
+        \item \textbf{Driver profiling} - utilizes time-series data taken from driver's responses in situations in order to enhance the overall quality of autonomous driving
+        \item \textbf{Image recognition} - collects and categorizes diverse features from the environment, like lane following and understanding of the environment
+        \item \textbf{Object detection} - locates specific objects within collected images and allows them to make corresponding actions, like navigation, and collision avoidance \cite{AIandIoT, Fundamentals, researchresults, Taskoffloading}
+    \end{itemize}
+\end{enumerate} 
 
-\subsection{Machine learning and deep learning}
-\indent 
-
-
-
-%zatial som toto nerozpracoval do podrobna ale zatial by som vyuzil info z \cite{stateoftheart}\cite{Sensorfusion}\cite{Taskoffloading}
 \subsection{Algorithms}
-\indent Since we've discussed how the sensory part of an AV works in~\ref{sensors}, we need to take a closer look on how the vehicle perceives and makes decisions of its tasks. The vehicles has the ability to process volumes of data from various sensors and simultaneously facilitate real-time decisions in order to properly function. Here we list the most important ones:
+\par Since we've discussed how the sensory part of an AV works, we need to take a closer look at how the vehicle perceives and makes decisions about its tasks. Here we list the most important ones:
+\begin{enumerate}[A)]
+    \item \textbf{Mapping}
+    \par Mapping is the process of the AV collecting data from its surroundings and creating either an image (2D) or point-cloud (3D) map of it.
+    \par We can divide mapping into 3 modules based on its surroundings.
+    \begin{itemize}
+        \item \textbf{Mapping of objects} - this module compiles data received from sensors, mainly camera, radar, and LiDAR, and integrates the received information to create a 2D map
+        \item \textbf{Mapping of the road} - this module utilizes images to establish and update the 2D map to describe the road and non-drivable surroundings
+        \item \textbf{Mapping traffic of regulations} - this module gathers information to create a 3D map from a LiDAR containing traffic signs, road markings and the positions of traffic lights.  
+    \end{itemize}
+    
+    \item \textbf{Localization}
+    \par Localization requires the integration of data gathered from various sensors, mainly GPS and LiDAR, in order to generate a high-precision map and transfer the collected data to pinpoint the precise location of the vehicles. AVs can link sensor measurements together with map data for greater accuracy, which is great for the urban environment.
 
-\subsubsection{Mapping}
-\indent Mapping is the building block of AV's tasking. It's the process of the AV collecting data from its surroundings and creating either an image (2D) or point-cloud (3D) map of it. It's done in advance or during the making phase while employing all sensors on the vehicle. We can divide mapping into 3 modules based on its surroundings.\\
-\indent \textbf{Mapping of objects} - this module compiles data received from sensors, mainly camera, radar, and LiDAR, and integrates the received information to create a 2D map. It writes down every object detected. The further ones away from the vehicles are usually collected by radar and the ones closer by the camera.\\
-\indent \textbf{Mapping of the road} - this module utilizes images to establish and update the 2D map to describe the road and non-drivable surroundings.\\
-\indent \textbf{Mapping traffic of regulations} - this module gathers information to create a 3D map from a LiDAR sensor containing labelled traffic signs, road markings and the positions of traffic lights.  
-\cite{stateoftheart}\cite{functionalarch}
+    \item \textbf{Object detection and tracking} 
+    \par Object detection focuses on identifying vehicles, pedestrians, traffic signals/lights, and so on. It's primarily concentrated on moving objects. The integration of LiDAR with sensor fusion enhances 3D environmental understanding. The combination of a 3D map with the vehicle's position enables targeted processing which reduces both processing time and the probability of false detections.
+    \par Object tracking is centred on automatically tracking dynamic objects and ensuring safe vehicle operation. For tracking, LiDAR is primarily used since it has the ability of a 360-degree vision and monitor objects over large distances in great detail while tracking every move on the road.
 
-\subsubsection{Localization}
-\indent Localization plays a key role in autonomous driving. It requires the integration of data gathered from various sensors, of which GPS and LiDAR systems are used the most, in order to generate a high-precision map and transfer the collected data to pinpoint the precise location of the vehicles. Therefore, the AVs can link sensor measurements together with map data for greater accuracy, which has been proven to be effective in urban environments. 
-\cite{approach}\cite{computerarch}
-
-\subsubsection{Object detection and tracking}
-\indent Object detection and tracking are crucial components of AV technology since their task is to identify and monitor objects like other vehicles, pedestrians,... to ensure a safe and lawful operation of the AV. 
-\par Object detection is a critical task focused on identifying vehicles, pedestrians, traffic signals/lights, and so on. Therefore, it's primarily concentrated on moving objects. The integration of point-cloud data from LiDAR sensors gains a better look at the environment while employing sensor fusion~\ref{fusion} to it as well. If shadows, identical objects and various lighting conditions are a problem for detecting an object, other sensors take place for action. The combination of a 3D map with the vehicle's position enables targeted processing which reduces both processing time and the probability of false detections.
-\par Object tracking is centered on the automatic tracking of dynamic objects and ensuring safe vehicle operation/avoiding collisions with other vehicles or pedestrians. For tracking, LiDAR is primarily used since it has the ability of 360-degree vision and monitor objects over large distance in great detail. It tracks every move on the road, whether it be speeding, braking, lane changing or maneuvering. Some vehicles use two special filters for handling diverse tracking scenarios.\\
-\indent \textbf{Kalman Filters} - this one is used for simple, linear tracking in scenarios where there is no change of action, for ex. constant vehicle speed, straight roads,...\\
-\indent \textbf{Particle Filters} - this one is used for more complex, non-linear tracking in scenarios where there is change of action, for ex. changing speed, curved roads,...
-\cite{stateoftheart}\cite{approach}
-
-\subsubsection{Decision-making}
-\indent Decision-making is central part of the AV's tasking process. It combines all of the aforementioned algorithms together to formulate a plan in order to input its driving decisions. Challenges arise from uncertain environmental factors, such as sensory data noise, unpredictable behavior, and the hidden state of other vehicles, that might damper the effectiveness of the vehicle. We divide it into 3 tasks:\\
-\indent \textbf{Prediction} - AVs face a challenge when it comes to the behavior of the environment. To ensure the safe navigation of the vehicle in complex scenarios, like intersections, the AVs must possess the capability to anticipate and predict the actions of other vehicles, pedestrians on the crosswalk, and so on. One methods is creating a model that represents the positions of other vehicles and associating them with probability distributions. Therefore, AVs need perfect information about its surroundings especially with minimal dalays.\\
-\indent \textbf{Path planning} - planning a path with the intention to find the safest and the most convenient way to reach a certain destination in a dynamic environment can become a challenge for an AV, the vehicles needs to employ its full maneuvering capabilities. The path planning control strategy revolves around the task of determining a geometric path from an initial configuration to the target one, ensuring the usefulness of each configuration along its path when time becomes the factor. It integrates extensive data from its system, and continuously learns and adapts so that the AV could refine its path planning strategies based on the gathered information which ultimately leads to improved decision-making.\\
-\indent \textbf{Obstacle avoidance} - as safety is one of the main concerns in autonomous driving, avoiding collisions and other potential risks is a must for every AV. This algorithm operates on two levels of obstacle avoidance. The first one being the proactive mechanism which is based on the traffic predictions. During its process, it calculates certain parameters like time to collision or predicted minimum distance which is then adjusted to the local path planning. If the proactive mechanism isn't efficient enough, a second level called reactive mechanism gets active. Unlike the previous one, it relies on radar data to identify obstacles and avoid them. 
-\cite{computerarch}\cite{AIandIoT}\cite{approach}
+    \item \textbf{Decision-making}
+    \par Decision-making combines all of the aforementioned algorithms to formulate a plan in order to input its driving decisions.
+    \par We divide it into 3 tasks:
+    \begin{itemize}
+        \item \textbf{Prediction} 
+        \par To ensure the safe navigation of the vehicle in complex scenarios, AVs must possess the capability to anticipate and predict the actions of other drivers and pedestrians. One method involves modelling other vehicles' positions and making probability distributions. Therefore, AVs need perfect information about their surroundings with minimal delays.
+        \item \textbf{Path planning} -
+        \par The path planning control strategy revolves around the task of determining a geometric path from an initial configuration to the target one in the safest and most convenient way possible. It integrates extensive data, continuously learns and adapts for refined path planning, improving decision-making.
+ 
+        \item \textbf{Obstacle avoidance} 
+        \par This algorithm operates on two levels of obstacle avoidance. The first one is the proactive mechanism which calculates certain parameters, like time to collision or predicted minimum distance, which are then adjusted to the local path planning. If the proactive mechanism isn't enough, a second level called the reactive mechanism gets activated. It relies on radar data to identify obstacles and avoid them. 
+    \end{itemize}
+\end{enumerate}
 
 \begin{figure*}[!h]
 \centering
@@ -149,53 +168,163 @@ In the previous section~\eqref{sensors}, we have talked about the most important
 \label{fig:p_algoritmy}
 \end{figure*}
 
-\par These components collectively form the basis for AVs to navigate through their surroundings and make informed decisions while ensuring the safety and efficiency in their operations.
-
+\par These components collectively form the basis for AVs to navigate through their surroundings and make informed decisions while ensuring the safety and efficiency of their operations. \cite{stateoftheart, functionalarch, approach, computerarch, AIandIoT}
 
 \subsection{Sensor (data) fusion} \label{fusion}
+\indent Sensor fusion unites various sensors to create a thorough perspective of the data and combine the information from these sensors. By implementing sensor fusion-based object detection techniques, this method improves precision compared to traditional approaches. With this, it can accurately determine the vehicle's position and orientation. \cite{AIandIoT, Sensorfusion}
 
-\indent Sensor fusion is the prevalent approach that involves gathering of data from various sensors to support accurate decision-making. This mechanism unites various sensors to create a thorough perspective of the data they sense, to combine the information from these sensors, and to enhance the performance of specific detection tasks in general. With the implementation of object detection techniques based on sensor fusion, this technique offers enhanced precision when compared to the traditional object detection methods. It also aims to accurately determine the vehicle's position and orientation by combining data from these sensors. We usually divide sensor fusion framework into 5 levels:\\
-\indent \textbf{1st level or level 0} - at this level, sensor fusion involves wide and narrow-band digital signal processing and automated fusion extraction methods to assess and analyze objects initially. The process helps in gathering essential information about the detected objects.\\
-\indent \textbf{2nd level or level 1} - the process here relies on a more in-depth analysis and understanding of the objects detected by sensors. It combines image and non-image data sources, identifies objects through a combination of various techniques, unifies data from various sources, and adjusts the level of detail and accuracy needed.\\ 
-\indent \textbf{3rd and 4th level or level 3 and 4} - the focus of this process is the assessment of the current situation and understanding its potential impact. It deals with uncertainties of various data reliability, applies automated knowledge representation and cognitive principles to make informed decision for the vehicle.\\
-\indent \textbf{5th level or level 4} - the last process delves into enhancing the performance of sensors by combining them to work more efficiently and effectively, creating a well-coordinated link between sensor settings and decision-making requirements, and settings up a robust measurement to evaluate the performance and effectiveness of the entire sensor fusion system. The most common measures are Measures of Effectiveness (MOE) and Measures of Performance (MOP), which basically assess how well the system is achieving its objectives and provides improvements if needed.
-\cite{AIandIoT}\cite{stateoftheart}\cite{Sensorfusion}
-
-
-
-
+%nova sekcia
 
 \section{Data processing architecture} \label{architecture}
+Another key component of AV is examining the intricate methods that manage and analyze complex datasets. Here we discuss the difference between cloud and edge computing and vehicular communication. 
 
-\subsection{Edge vs cloud computing}
+\subsection{Cloud vs edge computing}
+\begin{enumerate}[A]
+    \item \textbf{Cloud computing} 
+    \par Cloud computing is a centralized computing model that provides access to a shared pool of necessary computing resources, such as computational power and storage capacity, to process and analyze the massive amounts of data generated by vehicles almost anywhere.
+    \par However, the reliance on cloud computing for real-time decision-making in AVs can introduce some limitations such as:
+    \begin{itemize}
+        \item Reliance on remote data centres introduces latency and hampers quick decision-making
+        \item Unreliable internet connections impede data access and application usage
+        \item Cloud storage raises concerns about data privacy and security during sensitive information transmission
+    \end{itemize}
+    
+    \item \textbf{Edge computing} 
+    \par Edge computing is a decentralized computing model that brings computation and data storage closer to the edge devices, where data is generated. It aims to process data locally, at or near the source, instead of sending it to a centralized cloud server for processing.
+    \par Unlike cloud computing, these nearby edge devices allow for reduced latency, improved data transmission utilization, software update and maintenance, and enhanced real-time data analysis capabilities which enable faster response times and reduce the reliance on cloud resources.
+    \par Yet, edge computing also faces a few limitations, them being:
+    \begin{itemize}
+        \item Limited computational and storage resources can lead to compromises in processing capabilities
+        \item Deploying, monitoring, and managing edge devices across a bigger network can be more complex
+        \item Lack of scalability may limit the ability to handle increasing workloads and adapt to dynamic changes in demand
+        \item Data lifetime lasts a few hours or days unlike in cloud-based centers, which is unlimited 
+\end{itemize}
+\end{enumerate}
 
-\subsection{vehicle communication}
+\par By combining the strengths of both, we can achieve a comprehensive data processing architecture that balances real-time processing, scalability, and cost efficiency
+\cite{understanding, AIandIoT}
 
-\subsection{Accelarators}
+\subsection{Vehicular communication}
+\textbf{Mobile Edge Computing} 
+\par Mobile Edge Computing, or MEC, is a distributed computing architecture that brings computing resources, like processing power and storage, closer to the edge of the network. By doing so it reduces latency, optimizes data processing, and enhances the performance of applications and services in connected environments.
 
+\begin{figure*}[!h]
+\centering
+\includegraphics[scale=0.5]{Edgecomputing.pdf}
+\caption{Mobile edge computing and vehicle communication}
+{Source: \url{https://www.telematicswire.net/connected-vehicles-and-mobile-edge-computing-a-marriage-of-convenience/}}
+\label{fig:p_MEC}
+\end{figure*}
 
+\par The key component of MEC is the connection of it with V2X (vehicle-to-everything) communication. This comprehensive framework consists of other smaller networks, like V2I, V2P, V2V, and more. Together they create ultra-low latency and high-capacity bandwidth, and enable real-time interactions. MEC's local data processing, edge intelligence, and scalability enhance V2X capabilities, leading to advanced safety features and optimized traffic management. Therefore, they create a strong framework for efficient and intelligent connected vehicles.
+\cite{Taskoffloading, understanding}
 
+\subsection{Accelerators}
+\par The need for efficient and powerful computing systems becomes essential when it comes to AVs. One crucial component is accelerators. Here we list the most important ones:
+\begin{enumerate}
+    \item \textbf{Graphics Processing Units}
+    \par GPUs are known for their exceptional parallel processing capabilities, making them ideal for computationally intensive tasks, such as image and video processing. They excel at handling sensor data, including camera and LiDAR scans. The parallel architecture of GPUs allows for the execution of multiple tasks at once, leading to faster processing time. However, they consume more power compared to other accelerators, which can be a limitation in the context of energy efficiency.
+    \item \textbf{Digital Signal Processors}
+    \par DSPs are specialized processors designed to efficiently perform signal processing tasks. They are commonly used for sensor fusion, which we discussed before. DSPs offer high-performance signal processing capabilities while consuming relatively less power compared to GPUs. 
+    \item \textbf{Field-Programmable Gate Arrays}
+    \par FPGAs are programmable semiconductor devices that can be adjusted for specific tasks, like object detection and tracking. Their re-programmability makes them flexible and suitable for application-specific optimization, but the design and programming are complex and time-consuming, FPGAs are often used for tasks that require low latency and high bandwidth which enables them to process multiple data streams simultaneously while also saving energy.
+    \item \textbf{Application-Specific Integrated Circuits}
+    \par ASICs are custom-designed integrated circuits used for specific applications. They provide optimized hardware acceleration for critical tasks, such as perception and decision-making. By implementing dedicated circuits for these functions, ASICs offer Unparalleled performance and power efficiency.\cite{edgecomputing, computerarch, researchresults}
+\end{enumerate}
 
-\section{Safety measures and performance} \label{safety}
+%nova sekcia 
 
-\subsection{Security issues}
+\section{Safety measures} \label{safety}
+\par AVs are equipped with advanced sensors, AI, and machine learning algorithms to make decisions without human intervention. However, the deployment of them comes with a set of challenges and issues that need to be addressed in order to mitigate potential threats.
 
-\subsection{Security threats}
+\begin{figure*}[!h]
+\centering
+\includegraphics[scale=0.5]{challenges.pdf}
+\caption{Challenges facing AVs}
+{Source: \url{https://www.umlet.com/}}\\
+{Author: Maksim Alehash}
+\label{fig:p_challenges}
+\end{figure*}
 
+\subsection{Challenges}
 
-\section{Future directions and challenges} \label{future}
+\indent \textbf{Technical}
+\begin{enumerate}
+    \item \textbf{Privacy}
+    \par AVs generate a massive amount of data as they collect and process information from their surroundings by sensors, like location, travel routes, and personal preferences. Unauthorized access to this data can lead to privacy breaches and potentially be used for malicious purposes. Implementing access control mechanisms, like robust data encryption and obfuscation to balance information quality with user anonymity, is crucial to protect the privacy of AV users.
+    \item \textbf{Security}
+    \par AVs are vulnerable to various cyber threats, including hacking attempts and cybersecurity attacks. Malicious actors can exploit vulnerabilities in the vehicle's software or communication systems to gain control or disrupt their operation. Therefore, manufacturers have to take into consideration these measures:
+    \begin{itemize}
+        \item \textbf{Sensing security} - protecting the integrity of sensors
+        \item \textbf{Communication security} - protecting internal and external communication
+        \item \textbf{Data security} - preventing data leakage during transmission and storage
+        \item \textbf{Control security} - protecting against cyber attacks
+    \end{itemize}
+    Secure communication protocols, intrusion detection systems, and regular security maintenance are necessary to ensure the safety of AVs.
+    \item \textbf{Software quality}
+    \par Ensuring software quality in such complex systems is a difficult task. AVs need a good portion of their development budget to go through rigorous testing and validation due to their critical decision-making nature, which can impact human safety. Therefore, they require robust software that can handle various scenarios with minimal errors. In addition, constant software updates and maintenance are important to improve the overall performance of the vehicle.
+    \item \textbf{Computational resources}
+    \par  A key challenge in Avs is the need for substantial computational resources. The sheer amount of data collected by these sensors requires powerful processors, such as GPUs and FPGAs, and efficient memory management. The limited computational resources on board pose a challenge in terms of real-time data processing and decision-making. 
+\end{enumerate}
+\indent \textbf{Non-technical}
+\par Non-technical challenges include:
+\begin{enumerate}
+    \item \textbf{Legality and regulations} - legal challenges due to inadequate laws for AVs' unique characteristics 
+    \item \textbf{Consumer trust} - widespread adoption relies on public trust and acceptance
+    \item \textbf{Infrastructure readiness} - existing infrastructure may not support AVs
+    \item \textbf{Ethical concerns} - AVs face moral dilemmas in decision-making
+    \item \textbf{Uncertain costs} - financial challenges from both consumers and manufacturers
+\end{enumerate}
 
+\subsection{Threats}
+\begin{enumerate}
+    \item \textbf{Physical attacks}
+    \par AVs are susceptible to physical attacks that can compromise their safety and operation. These attacks range from vandalism to intentional collisions. Protecting AVs from them requires measures such as fool-proof designs, secure parking facilities, and surveillance systems.
+    \item \textbf{Detection and diagnostics failure}
+    \par Sensory systems are responsible for identifying and responding to hazards on the road and their failure can have severe consequences. We can divide them into 3 parts:
+    \begin{itemize}
+        \item \textbf{Sensor failure} - lack of universal standards for defining sensor failures poses risks in self-driving applications
+        \item \textbf{Sensor data failure} - functional sensors may report inaccurate data due to obstruction and deviations 
+        \item \textbf{Algorithm failure} - algorithms struggle in challenging lighting or weather conditions to detect road obstacles or lanes
+    \end{itemize}
+    \item \textbf{Hacking and cybersecurity threats}
+    \par AVs are constantly connected to external networks, making them vulnerable to hacking and other cybersecurity threats. Here we list some of the most common ones:
+    \begin{itemize}
+        \item \textbf{Illusion attack and GPS spoofing attack} - manipulating or compromising sensors to provide incorrect information about the location of the vehicle, causing confusion in the navigation system
+        \item \textbf{Denial of Service attack} - overloading the network with irrelevant data to make it unresponsive to genuine users and potentially causing damage to the vehicle, edge stations, or the network
+        \item \textbf{Sybil attack} - falsifying the identity of a vehicle or user to disrupt the normal functioning of the network, leading to false information about location, traffic and road conditions, and other events
+        \item \textbf{Replay attack} - sending out previously stored messages to deceive other entities on the network into believing past events are occurring again
+        \item \textbf{Passive eavesdropping attack} - stealthy attack involving constant monitoring of network traffic to collect information about the network
+        \item \textbf{Jamming attack} - disrupting communication channels through signal jamming, creating excessive noise in the network or disrupting communication channels to impact GPS signals and overall network functionality        
+    \end{itemize}
+\end{enumerate}
+\par With these attacks, malicious attackers can exploit vulnerabilities in the vehicle's software or communication protocols to gain unauthorized access or manipulate its behaviour. Therefore, implementing robust cybersecurity measures, like encryption, authentication, and intrusion detection systems, are important to alleviate these threats \cite{researchresults, stateoftheart, Communicationsecurity, edgecomputing}
 
+%nova sekcia 
 
+\section{Future directions} \label{future}
+\par The future trajectory of autonomous vehicles is marked by advancements in efficiency, connectivity, safety, and security. These key components are here to reshape the landscape of intelligent transportation and integrate AVs into daily operations.
+\par Efficiency assumes a critical role in optimizing the performance of AVs. AI enhancements form the foundation of adaptive intelligence. The ongoing evolution of machine learning algorithms empowers these vehicles to obtain insights from real-world scenarios, continually refining their operational performance and reducing energy consumption. The integration of edge computing further accelerates this process, facilitating localized data processing for rapid decision-making, therefore reducing latency and dependence on external networks.  
+\par Connectivity facilitates a sophisticated network of communication between autonomous vehicles and their surrounding. V2X communication enhancements extend the scope of interaction, enabling vehicles to exchange critical information not only amongst themselves but also with smart infrastructure for smoother traffic flow. The integration of 5G connectivity enhances this network, establishing a high-speed, low-latency communication infrastructure that underpins a responsive and dynamic transportation ecosystem.
+\par Safety is a primary concern for any industry that specializes in AVs. AI-powered human behaviour prediction enables vehicles to anticipate and respond to the actions of pedestrians and other drivers in order to take appropriate actions to avoid accidents. The implementation of Advanced Driver Assistance Systems (ADAS) increases situational awareness, providing a safety net through features like collision avoidance, emergency braking and lane-keeping assistance. This system will continue to evolve, providing increased levels of automation and assisting drivers in complex traffic scenarios.
+\par Security is important given the evergrowing reliance on data. Robust cybersecurity measures are essential, while also encompassing continuous system monitoring, advanced encryption, and secure data transmission. This proactive approach ensures the integrity of vehicles's systems, safeguarding against potential cyber threats such as unauthorized access and interference.
+\par These advancements will pave the way for highly efficient, safe, and intelligent Avs that can navigate complex road scenarios with ease.\cite{Communicationsecurity, edgecomputing, stateoftheart, understanding}
+
+%nova sekcia 
 
 \section{Conclusion} \label{conclusion}
+\par In conclusion, the integration of real-time data processing in autonomous vehicles represents a pivotal advancement in the evolution of intelligent and modern transportation systems. The collection of cutting-edge technologies, including sophisticated sensors, AI algorithms, and intricate data processing mechanisms, introduces a new era of precision and adaptability for self-driving vehicles. 
+\par These components not only enable AVs to navigate through complex and dynamic environments but also lay the foundation for a multitude of advancements that extend beyond the autonomy of AVs. Not only do they strengthen safety measures to protect others but also shaping the emergence of smart cities and an interconnected transportation network. The continuous refinement and integration of these technologies reflect a dynamic trajectory, where ongoing research efforts and innovations converge to redefine the aspects of movement.
+\par Looking ahead, real-time data processing in AVs is a transformative force with far-reaching implications beyond current capacities. The ongoing journey of it encompasses not just a technological narrative but also a transformative force in shaping the future of transportation.
+
+%nova sekcia 
+
+\section{Reakcia an témy} 
+\par \textbf{Spoločenské súvislosti informatiky} - The integration of AVs into society introduces transformative changes, prompting discussions on safety, the impact on drivers, and the adaptation of traffic systems to these new technologies. Addressing societal acceptance and educating the public about the advantages and safety of AVs becomes pivotal.
+\par \textbf{Technológia a ľudia} - As AVs become a reality, there emerge technological challenges and risks for individuals, particularly concerning safety and risk management. Significantly, the question arises of how to educate people to a level where they can comprehend and effectively engage with these emerging technologies.
+\par \textbf{Udržateľnosť a etika} - The emergence of AVs holds the potential to enhance sustainability by optimizing transportation systems and reducing emissions. However, ethical considerations come to the forefront, especially in programming vehicles to make decisions during emergencies and navigating value judgments in diverse scenarios. Striking a balance between technological progress and ethical standards is essential.
 
 
-
-%\acknowledgement{Ak niekomu chcete poďakovať\ldots}
-
-
-% týmto sa generuje zoznam literatúry z obsahu súboru literatura.bib podľa toho, na čo sa v článku odkazujete
 \newpage
 \bibliography{literatura}
 \bibliographystyle{abbrv} % prípadne alpha, abbrv alebo hociktorý iný
